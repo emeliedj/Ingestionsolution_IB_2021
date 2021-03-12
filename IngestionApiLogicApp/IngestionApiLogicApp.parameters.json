@@ -1,5 +1,16 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {}
+  "parameters": {
+
+    "logicAppName": {
+      "value": "IBIngestionApiLogicApp-t"
+    },
+    "servicebus_1_Connection_Name": {
+      "value": "servicebus"
+    },
+    "servicebus_1_connectionString": {
+      "value": "Endpoint=sb://ibservicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Uq4FS7EgH3vKwk/95xbSOgdz2eoRCpzuvhKiy2UG5E0="
+    }
+  }
 }

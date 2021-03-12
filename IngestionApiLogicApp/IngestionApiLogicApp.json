@@ -53,11 +53,9 @@
         "germanywestcentral",
         "norwayeast",
         "brazilsoutheast"
-      ],
-      "metadata": {
-        "description": "Location of the Logic App."
-      }
-    },
+      ]
+      
+    }
     "servicebus_1_Connection_Name": {
       "type": "string",
       "defaultValue": "servicebus"

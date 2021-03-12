@@ -55,7 +55,7 @@
         "brazilsoutheast"
       ]
       
-    }
+    },
     "servicebus_1_Connection_Name": {
       "type": "string",
       "defaultValue": "servicebus"

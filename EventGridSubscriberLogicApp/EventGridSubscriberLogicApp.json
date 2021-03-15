@@ -126,7 +126,7 @@
                 },
                 "Compose_4": {
                   "type": "Compose",
-                  "inputs": "@json(decodeBase64(items('For_each_2')['ContentData']))",
+                  "inputs": "@json(decodeBase64(items('For_each')['ContentData']))",
                   "runAfter": {
                     "Complete_the_message_in_a_topic_subscription": [
                       "Succeeded"

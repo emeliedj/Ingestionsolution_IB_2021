@@ -100,7 +100,11 @@
                   "sessionId": ""
                 }
               },
-              "runAfter": {}
+              "runAfter": {
+                "Initialize_variable": [
+                  "Succeeded"
+                ]
+              }
             },
             "For_each": {
               "type": "Foreach",
@@ -124,38 +128,23 @@
                   },
                   "runAfter": {}
                 },
-                "Compose": {
+                "Compose_4": {
                   "type": "Compose",
-                  "inputs": "@items('For_each')?['ContentData']",
+                  "inputs": "@items('For_each')?['Properties']",
                   "runAfter": {
                     "Complete_the_message_in_a_topic_subscription": [
                       "Succeeded"
                     ]
                   }
                 },
-                "Compose_2": {
-                  "type": "Compose",
-                  "inputs": "@items('For_each')",
+                "Append_to_array_variable": {
+                  "type": "AppendToArrayVariable",
+                  "inputs": {
+                    "name": "messageArray",
+                    "value": "@outputs('Compose_4')"
+                  },
                   "runAfter": {
-                    "Compose": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Compose_3": {
-                  "type": "Compose",
-                  "inputs": "@body('Get_messages_from_a_topic_subscription_(peek-lock)')",
-                  "runAfter": {
-                    "Compose_2": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Compose_4": {
-                  "type": "Compose",
-                  "inputs": "@items('For_each')?['Properties']",
-                  "runAfter": {
-                    "Compose_3": [
+                    "Compose_4": [
                       "Succeeded"
                     ]
                   }
@@ -163,6 +152,27 @@
               },
               "runAfter": {
                 "Get_messages_from_a_topic_subscription_(peek-lock)": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "messageArray",
+                    "type": "array"
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Compose": {
+              "type": "Compose",
+              "inputs": "@variables('messageArray')",
+              "runAfter": {
+                "For_each": [
                   "Succeeded"
                 ]
               }

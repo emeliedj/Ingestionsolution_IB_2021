@@ -60,6 +60,20 @@
     "azureeventgrid_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "christian.rudolphi@integrationsbolaget.se"
+    },
+    "servicebus_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "servicebus"
+    },
+    "servicebus_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "BusConnection"
+    },
+    "servicebus_1_connectionString": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure Service Bus Connection String"
+      }
     }
   },
   "variables": {},
@@ -69,7 +83,55 @@
         "state": "Enabled",
         "definition": {
           "$schema": "https://schema.management.azure.com/schemas/2016-06-01/Microsoft.Logic.json",
-          "actions": {},
+          "actions": {
+            "Get_messages_from_a_topic_subscription_(peek-lock)": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                  }
+                },
+                "method": "get",
+                "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/subscriptions/@{encodeURIComponent('IBEventGridSubscriber-t')}/messages/batch/peek",
+                "queries": {
+                  "maxMessageCount": 20,
+                  "subscriptionType": "Main",
+                  "sessionId": ""
+                }
+              },
+              "runAfter": {}
+            },
+            "For_each": {
+              "type": "Foreach",
+              "foreach": "@body('Get_messages_from_a_topic_subscription_(peek-lock)')",
+              "actions": {
+                "Complete_the_message_in_a_topic_subscription": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['servicebus']['connectionId']"
+                      }
+                    },
+                    "method": "delete",
+                    "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/subscriptions/@{encodeURIComponent('IBEventGridSubscriber-t')}/messages/complete",
+                    "queries": {
+                      "lockToken": "@items('For_each')?['LockToken']",
+                      "subscriptionType": "Main",
+                      "sessionId": ""
+                    }
+                  },
+                  "runAfter": {}
+                }
+              },
+              "runAfter": {
+                "Get_messages_from_a_topic_subscription_(peek-lock)": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
           "parameters": {
             "$connections": {
               "defaultValue": {},
@@ -120,6 +182,11 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
                 "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
+              },
+              "servicebus": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               }
             }
           }
@@ -133,7 +200,8 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]"
       ]
     },
     {
@@ -146,6 +214,21 @@
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
         },
         "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('servicebus_1_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
+        },
+        "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "connectionString": "[parameters('servicebus_1_connectionString')]"
+        }
       }
     }
   ],

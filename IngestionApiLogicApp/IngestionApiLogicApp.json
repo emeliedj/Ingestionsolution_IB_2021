@@ -167,12 +167,6 @@
                               "@items('For_each_4')?['name']",
                               "pcat"
                             ]
-                          },
-                          {
-                            "greater": [
-                              "@items('For_each_4')?['values'][0]",
-                              0
-                            ]
                           }
                         ]
                       },

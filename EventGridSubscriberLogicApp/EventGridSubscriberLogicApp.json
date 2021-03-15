@@ -158,8 +158,7 @@
                     },
                     "filter": {
                       "includedEventTypes": [
-                        "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners",
-                        "Microsoft.ServiceBus.ActiveMessagesAvailablePeriodicNotifications"
+                        "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners"
                       ]
                     }
                   }
@@ -178,15 +177,15 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azureeventgrid_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
-              },
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+              },
+              "azureeventgrid_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
               }
             }
           }
@@ -200,8 +199,8 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
       ]
     },
     {

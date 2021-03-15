@@ -123,6 +123,42 @@
                     }
                   },
                   "runAfter": {}
+                },
+                "Compose": {
+                  "type": "Compose",
+                  "inputs": "@items('For_each')?['ContentData']",
+                  "runAfter": {
+                    "Complete_the_message_in_a_topic_subscription": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_2": {
+                  "type": "Compose",
+                  "inputs": "@items('For_each')",
+                  "runAfter": {
+                    "Compose": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_3": {
+                  "type": "Compose",
+                  "inputs": "@body('Get_messages_from_a_topic_subscription_(peek-lock)')",
+                  "runAfter": {
+                    "Compose_2": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_4": {
+                  "type": "Compose",
+                  "inputs": "@items('For_each')?['Properties']",
+                  "runAfter": {
+                    "Compose_3": [
+                      "Succeeded"
+                    ]
+                  }
                 }
               },
               "runAfter": {

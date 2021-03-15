@@ -174,7 +174,7 @@
                 },
                 "path": "/subscriptions/@{encodeURIComponent('c4022058-9e70-4f84-ad5b-1d689dd885ab')}/providers/@{encodeURIComponent('Microsoft.ServiceBus.Namespaces')}/resource/eventSubscriptions",
                 "queries": {
-                  "x-ms-api-version": "2017-06-15-preview"
+                  "x-ms-api-version": "2017-09-15-preview"
                 }
               },
               "splitOn": "@triggerBody()"

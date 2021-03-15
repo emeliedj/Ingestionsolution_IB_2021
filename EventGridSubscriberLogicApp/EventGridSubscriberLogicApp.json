@@ -132,6 +132,15 @@
                       "Succeeded"
                     ]
                   }
+                },
+                "Compose": {
+                  "type": "Compose",
+                  "inputs": "@outputs('Compose_4')",
+                  "runAfter": {
+                    "Compose_4": [
+                      "Succeeded"
+                    ]
+                  }
                 }
               },
               "runAfter": {

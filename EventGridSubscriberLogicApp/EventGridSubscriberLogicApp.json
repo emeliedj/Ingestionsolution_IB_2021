@@ -100,11 +100,7 @@
                   "sessionId": ""
                 }
               },
-              "runAfter": {
-                "Initialize_variable": [
-                  "Succeeded"
-                ]
-              }
+              "runAfter": {}
             },
             "For_each": {
               "type": "Foreach",
@@ -130,21 +126,9 @@
                 },
                 "Compose_4": {
                   "type": "Compose",
-                  "inputs": "@body('Complete_the_message_in_a_topic_subscription')['Properties']",
+                  "inputs": "@json(decodeBase64(items('For_each_2')['ContentData']))",
                   "runAfter": {
                     "Complete_the_message_in_a_topic_subscription": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Append_to_array_variable": {
-                  "type": "AppendToArrayVariable",
-                  "inputs": {
-                    "name": "messageArray",
-                    "value": "@outputs('Compose_4')"
-                  },
-                  "runAfter": {
-                    "Compose_4": [
                       "Succeeded"
                     ]
                   }
@@ -152,27 +136,6 @@
               },
               "runAfter": {
                 "Get_messages_from_a_topic_subscription_(peek-lock)": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "Initialize_variable": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "messageArray",
-                    "type": "array"
-                  }
-                ]
-              },
-              "runAfter": {}
-            },
-            "Compose": {
-              "type": "Compose",
-              "inputs": "@variables('messageArray')",
-              "runAfter": {
-                "For_each": [
                   "Succeeded"
                 ]
               }

@@ -226,8 +226,8 @@
                 },
                 "method": "post",
                 "body": {
-                  "ContentType": "application/json",
-                  "Properties": "@outputs('Compose_3')"
+                  "ContentData": "@{base64(outputs('Compose_3'))}",
+                  "ContentType": "application/json"
                 },
                 "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/messages"
               },

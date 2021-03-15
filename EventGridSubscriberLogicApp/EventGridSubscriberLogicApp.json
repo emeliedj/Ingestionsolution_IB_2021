@@ -130,7 +130,7 @@
                 },
                 "Compose_4": {
                   "type": "Compose",
-                  "inputs": "@items('For_each')?['Properties']",
+                  "inputs": "@body('Complete_the_message_in_a_topic_subscription')['Properties']",
                   "runAfter": {
                     "Complete_the_message_in_a_topic_subscription": [
                       "Succeeded"

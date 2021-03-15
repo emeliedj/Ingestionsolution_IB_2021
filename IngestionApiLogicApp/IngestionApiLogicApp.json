@@ -54,7 +54,6 @@
         "norwayeast",
         "brazilsoutheast"
       ]
-      
     },
     "servicebus_1_Connection_Name": {
       "type": "string",
@@ -90,7 +89,7 @@
               "inputs": {
                 "variables": [
                   {
-                    "name": "TestArray",
+                    "name": "ingestionArray",
                     "type": "array"
                   }
                 ]
@@ -101,7 +100,7 @@
               "type": "Foreach",
               "foreach": "@triggerBody()?['timeSeries']",
               "actions": {
-                "For_each_2": {
+                "For_each_3": {
                   "type": "Foreach",
                   "foreach": "@items('For_each')?['parameters']",
                   "actions": {
@@ -111,7 +110,7 @@
                         "and": [
                           {
                             "equals": [
-                              "@items('For_each_2')?['name']",
+                              "@items('For_each_3')?['name']",
                               "t"
                             ]
                           }
@@ -121,16 +120,15 @@
                         "Compose": {
                           "type": "Compose",
                           "inputs": {
-                            "Grad": "@{items('For_each_2')['values'][0]}",
                             "Tid": "@items('For_each')['validTime']",
-                            "Unit": "@items('For_each_2')['unit']"
+                            "°C": "@{items('For_each_3')['values'][0]}"
                           },
                           "runAfter": {}
                         },
                         "Append_to_array_variable": {
                           "type": "AppendToArrayVariable",
                           "inputs": {
-                            "name": "TestArray",
+                            "name": "ingestionArray",
                             "value": "@outputs('Compose')"
                           },
                           "runAfter": {
@@ -152,11 +150,74 @@
                 ]
               }
             },
-            "Compose_2": {
+            "For_each_2": {
+              "type": "Foreach",
+              "foreach": "@triggerBody()?['timeSeries']",
+              "actions": {
+                "For_each_4": {
+                  "type": "Foreach",
+                  "foreach": "@items('For_each_2')?['parameters']",
+                  "actions": {
+                    "Condition_2": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@items('For_each_4')?['name']",
+                              "pcat"
+                            ]
+                          },
+                          {
+                            "greater": [
+                              "@items('For_each_4')?['values'][0]",
+                              0
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Compose_2": {
+                          "type": "Compose",
+                          "inputs": {
+                            "Nederbörd": "@items('For_each_4')['values'][0]",
+                            "Tid": "@items('For_each_2')['validTime']"
+                          },
+                          "runAfter": {}
+                        },
+                        "Append_to_array_variable_2": {
+                          "type": "AppendToArrayVariable",
+                          "inputs": {
+                            "name": "ingestionArray",
+                            "value": "@outputs('Compose_2')"
+                          },
+                          "runAfter": {
+                            "Compose_2": [
+                              "Succeeded"
+                            ]
+                          }
+                        }
+                      },
+                      "runAfter": {}
+                    }
+                  },
+                  "runAfter": {}
+                }
+              },
+              "runAfter": {
+                "Initialize_variable": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_3": {
               "type": "Compose",
-              "inputs": "@variables('TestArray')",
+              "inputs": "@variables('ingestionArray')",
               "runAfter": {
                 "For_each": [
+                  "Succeeded"
+                ],
+                "For_each_2": [
                   "Succeeded"
                 ]
               }
@@ -171,13 +232,13 @@
                 },
                 "method": "post",
                 "body": {
-                  "ContentData": "@{base64(outputs('Compose_2'))}",
+                  "ContentData": "@{base64(outputs('Compose_3'))}",
                   "ContentType": "application/json"
                 },
                 "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/messages"
               },
               "runAfter": {
-                "Compose_2": [
+                "Compose_3": [
                   "Succeeded"
                 ]
               }

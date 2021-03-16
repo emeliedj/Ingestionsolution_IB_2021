@@ -107,6 +107,39 @@
         "Organizational",
         "Public"
       ]
+    },
+    "azuretables_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azuretables-1"
+    },
+    "azuretables_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "storageCon"
+    },
+    "azuretables_2_storageaccount": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your storage account"
+      },
+      "defaultValue": "ibsupstorage"
+    },
+    "azuretables_2_sharedkey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The shared storage key of your storage account"
+      }
+    },
+    "azuretables_2_privacySetting": {
+      "type": "string",
+      "metadata": {
+        "description": "Privacy Setting"
+      },
+      "allowedValues": [
+        "None",
+        "Private",
+        "Organizational",
+        "Public"
+      ]
     }
   },
   "variables": {},
@@ -172,7 +205,7 @@
                   "actions": {
                     "Switch": {
                       "type": "Switch",
-                      "expression": "@items('For_each_2')['Nederbörd']",
+                      "expression": "@int(items('For_each_2')['Nederbörd'])",
                       "cases": {
                         "No_precipitation": {
                           "case": 0,
@@ -182,7 +215,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -192,7 +225,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Ingen",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -208,7 +241,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -218,7 +251,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Snö",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -234,7 +267,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -244,7 +277,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Snöblandatregn",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -260,7 +293,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -270,7 +303,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Regn",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -286,7 +319,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -296,7 +329,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Duggregn",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -312,7 +345,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -322,7 +355,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Frysande Regn",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -338,7 +371,7 @@
                               "inputs": {
                                 "host": {
                                   "connection": {
-                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                                   }
                                 },
                                 "method": "post",
@@ -348,7 +381,7 @@
                                   "Tid": "@items('For_each_2')['Tid']",
                                   "Celsius": "@items('For_each_2')['Grad']",
                                   "Nederbörd": "Frysande duggregn",
-                                  "Vindstyrka(m/s)": "@items('For_each_2')['Vindstyrka']"
+                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                                 },
                                 "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
                               },
@@ -428,15 +461,15 @@
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               },
+              "azuretables_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_2_Connection_Name'))]",
+                "connectionName": "[parameters('azuretables_2_Connection_Name')]"
+              },
               "azureeventgrid_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
                 "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
-              },
-              "azuretables": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-                "connectionName": "[parameters('azuretables_1_Connection_Name')]"
               }
             }
           }
@@ -451,8 +484,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_2_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
       ]
     },
     {
@@ -496,6 +529,23 @@
           "storageaccount": "[parameters('azuretables_1_storageaccount')]",
           "sharedkey": "[parameters('azuretables_1_sharedkey')]",
           "privacySetting": "[parameters('azuretables_1_privacySetting')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuretables_2_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
+        },
+        "displayName": "[parameters('azuretables_2_Connection_DisplayName')]",
+        "parameterValues": {
+          "storageaccount": "[parameters('azuretables_2_storageaccount')]",
+          "sharedkey": "[parameters('azuretables_2_sharedkey')]",
+          "privacySetting": "[parameters('azuretables_2_privacySetting')]"
         }
       }
     }

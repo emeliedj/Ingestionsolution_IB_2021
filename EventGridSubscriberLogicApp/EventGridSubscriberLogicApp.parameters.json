@@ -28,7 +28,7 @@
       "value": "StorageConnection"
     },
     "azuretables_1_storageaccount": {
-      "value": "ibsuptable"
+      "value": "ibsupstorage"
     },
     "azuretables_1_sharedkey": {
       "value": "vBVpC4S0aA0VP6QDMsK+qlZIrNBXaKgMjYVahd1ETA8WzUAaNff+PNXsoBJ3DF/HPpXCd9zQs+K1ZN7fWNdz9w=="

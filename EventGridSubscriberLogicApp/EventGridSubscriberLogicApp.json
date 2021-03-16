@@ -74,39 +74,7 @@
       "metadata": {
         "description": "Azure Service Bus Connection String"
       }
-    },
-    "azuretables_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azuretables"
-    },
-    "azuretables_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "StorageConnection"
-    },
-    "azuretables_1_storageaccount": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of your storage account"
-      },
-      "defaultValue": "ibsupstorage"
-    },
-    "azuretables_1_sharedkey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The shared storage key of your storage account"
-      }
-    },
-    "azuretables_1_privacySetting": {
-      "type": "string",
-      "metadata": {
-        "description": "Privacy Setting"
-      },
-      "allowedValues": [
-        "None",
-        "Private",
-        "Organizational",
-        "Public"
-      ]
+    
     },
     "azuretables_2_Connection_Name": {
       "type": "string",

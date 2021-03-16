@@ -515,23 +515,7 @@
         }
       }
     },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuretables_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
-        },
-        "displayName": "[parameters('azuretables_1_Connection_DisplayName')]",
-        "parameterValues": {
-          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
-          "sharedkey": "[parameters('azuretables_1_sharedkey')]",
-          "privacySetting": "[parameters('azuretables_1_privacySetting')]"
-        }
-      }
-    },
+    
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",

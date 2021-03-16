@@ -286,7 +286,12 @@
                 },
                 "Compose_": {
                   "type": "Compose",
-                  "inputs": "{\n\"Tid\":@{variables('tid')},\n\"Grad\": @{variables('grad')},\n\"Nederbörd\": @{variables('nederbörd')},\n\"Vindstyrka\":@{variables('vindstyrka')}\n]",
+                  "inputs": {
+                    "Tid": "@variables('tid')",
+                    "Grad": "@variables('grad')",
+                    "Nederbörd": "@variables('nederbörd')",
+                    "Vindstyrka": "@variables('vindstyrka')"
+                  },
                   "runAfter": {
                     "For_each_2": [
                       "Succeeded"

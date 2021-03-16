@@ -202,25 +202,13 @@
                         ]
                       },
                       "actions": {
-                        "Set_tid": {
-                          "type": "SetVariable",
-                          "inputs": {
-                            "name": "tid",
-                            "value": "@{items('For_each')['validTime']}"
-                          },
-                          "runAfter": {}
-                        },
                         "Set_grad": {
                           "type": "SetVariable",
                           "inputs": {
                             "name": "grad",
                             "value": "@{items('For_each_2')['values'][0]}"
                           },
-                          "runAfter": {
-                            "Set_tid": [
-                              "Succeeded"
-                            ]
-                          }
+                          "runAfter": {}
                         }
                       },
                       "runAfter": {}
@@ -293,7 +281,7 @@
                     "Vindstyrka": "@variables('vindstyrka')"
                   },
                   "runAfter": {
-                    "For_each_2": [
+                    "Set_variable": [
                       "Succeeded"
                     ]
                   }
@@ -306,6 +294,18 @@
                   },
                   "runAfter": {
                     "Compose_": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_variable": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "tid",
+                    "value": "@{items('For_each')['validTime']}"
+                  },
+                  "runAfter": {
+                    "For_each_2": [
                       "Succeeded"
                     ]
                   }

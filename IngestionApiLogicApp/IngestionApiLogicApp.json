@@ -270,7 +270,12 @@
                       }
                     }
                   },
-                  "runAfter": {}
+                  "runAfter": {},
+                  "runtimeConfiguration": {
+                    "concurrency": {
+                      "repetitions": 1
+                    }
+                  }
                 },
                 "Compose_": {
                   "type": "Compose",
@@ -315,6 +320,11 @@
                 "vindstyrka": [
                   "Succeeded"
                 ]
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
               }
             },
             "Compose": {

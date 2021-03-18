@@ -74,34 +74,34 @@
       "metadata": {
         "description": "Azure Service Bus Connection String"
       }
-    
     },
-    "azuretables_2_Connection_Name": {
+    "azuretables_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "azuretables-1"
+      "defaultValue": "azuretables"
     },
-    "azuretables_2_Connection_DisplayName": {
+    "azuretables_1_Connection_DisplayName": {
       "type": "string",
-      "defaultValue": "storageCon"
+      "defaultValue": "StorageConnection"
     },
-    "azuretables_2_storageaccount": {
+    "azuretables_1_storageaccount": {
       "type": "string",
       "metadata": {
         "description": "The name of your storage account"
       },
       "defaultValue": "ibsupstorage"
     },
-    "azuretables_2_sharedkey": {
+    "azuretables_1_sharedkey": {
       "type": "securestring",
       "metadata": {
         "description": "The shared storage key of your storage account"
       }
     },
-    "azuretables_2_privacySetting": {
+    "azuretables_1_privacySetting": {
       "type": "string",
       "metadata": {
         "description": "Privacy Setting"
       },
+      "defaultValue": "None",
       "allowedValues": [
         "None",
         "Private",
@@ -158,214 +158,286 @@
                   },
                   "runAfter": {}
                 },
-                "Decode_": {
-                  "type": "Compose",
-                  "inputs": "@json(decodeBase64(items('For_each')['ContentData']))",
-                  "runAfter": {
-                    "Complete_the_message_in_a_topic_subscription": [
-                      "Succeeded"
-                    ]
-                  }
-                },
                 "For_each_2": {
                   "type": "Foreach",
-                  "foreach": "@outputs('Decode_')",
+                  "foreach": "@json(decodeBase64(items('For_each')['ContentData']))",
                   "actions": {
-                    "Switch": {
-                      "type": "Switch",
-                      "expression": "@int(items('For_each_2')['Nederbörd'])",
-                      "cases": {
-                        "No_precipitation": {
-                          "case": 0,
-                          "actions": {
-                            "Insert_Entity": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Ingen",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
+                    "Grad": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "contains": [
+                              "@items('For_each_2')",
+                              "Grad"
+                            ]
                           }
-                        },
-                        "Snow": {
-                          "case": 1,
-                          "actions": {
-                            "Insert_Entity_2": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Snö",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        },
-                        "Snow_and_rain": {
-                          "case": 2,
-                          "actions": {
-                            "Insert_Entity_3": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Snöblandatregn",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        },
-                        "Rain": {
-                          "case": 3,
-                          "actions": {
-                            "Insert_Entity_4": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Regn",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        },
-                        "Drizzle": {
-                          "case": 4,
-                          "actions": {
-                            "Insert_Entity_5": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Duggregn",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        },
-                        "Freezing_rain": {
-                          "case": 5,
-                          "actions": {
-                            "Insert_Entity_6": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Frysande Regn",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        },
-                        "Freezing_drizzle": {
-                          "case": 6,
-                          "actions": {
-                            "Insert_Entity_7": {
-                              "type": "ApiConnection",
-                              "inputs": {
-                                "host": {
-                                  "connection": {
-                                    "name": "@parameters('$connections')['azuretables_1']['connectionId']"
-                                  }
-                                },
-                                "method": "post",
-                                "body": {
-                                  "PartitionKey": "Väder",
-                                  "RowKey": "@guid()",
-                                  "Tid": "@items('For_each_2')['Tid']",
-                                  "Celsius": "@items('For_each_2')['Grad']",
-                                  "Nederbörd": "Frysande duggregn",
-                                  "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                                },
-                                "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
-                              },
-                              "runAfter": {}
-                            }
-                          }
+                        ]
+                      },
+                      "actions": {
+                        "Insert_Entity": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azuretables']['connectionId']"
+                              }
+                            },
+                            "method": "post",
+                            "body": {
+                              "Enhet": "@items('For_each_2')['Enhet']",
+                              "Grad": "@items('For_each_2')['Grad']",
+                              "PartitionKey": "temperatur",
+                              "RowKey": "@guid()",
+                              "Tid": "@items('For_each_2')['Tid']"
+                            },
+                            "path": "/Tables/@{encodeURIComponent('ibsuptable')}/entities"
+                          },
+                          "runAfter": {}
                         }
                       },
-                      "default": {
-                        "actions": {}
-                      },
                       "runAfter": {}
+                    },
+                    "Nederbörd": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "contains": [
+                              "@items('For_each_2')",
+                              "Nederbörd"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Switch": {
+                          "type": "Switch",
+                          "expression": "@items('For_each_2')['Nederbörd']",
+                          "cases": {
+                            "Ingen_Nederbörd": {
+                              "case": 0,
+                              "actions": {
+                                "Insert_Entity_2": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Ingen",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Snö": {
+                              "case": 1,
+                              "actions": {
+                                "Insert_Entity_3": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Snö",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Regn": {
+                              "case": 3,
+                              "actions": {
+                                "Insert_Entity_4": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Regn",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Snöblandatregn": {
+                              "case": 2,
+                              "actions": {
+                                "Insert_Entity_5": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Snöblandatregn",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Dugg": {
+                              "case": 4,
+                              "actions": {
+                                "Insert_Entity_6": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Dugg",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Frysregn": {
+                              "case": 5,
+                              "actions": {
+                                "Insert_Entity_7": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Frysregn",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            },
+                            "Frysdugg": {
+                              "case": 6,
+                              "actions": {
+                                "Insert_Entity_8": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "Nederbörd": "Frysdugg",
+                                      "PartitionKey": "nederbörd",
+                                      "RowKey": "@guid()",
+                                      "Tid": "@items('For_each_2')['Tid']"
+                                    },
+                                    "path": "/Tables/@{encodeURIComponent('ibsuptable1')}/entities"
+                                  },
+                                  "runAfter": {}
+                                }
+                              }
+                            }
+                          },
+                          "default": {
+                            "actions": {}
+                          },
+                          "runAfter": {}
+                        }
+                      },
+                      "runAfter": {
+                        "Grad": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Vindstyrka": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "contains": [
+                              "@items('For_each_2')",
+                              "Vindstyrka"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Insert_Entity_9": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azuretables']['connectionId']"
+                              }
+                            },
+                            "method": "post",
+                            "body": {
+                              "PartitionKey": "vindstyrka",
+                              "RowKey": "@guid()",
+                              "Tid": "@items('For_each_2')['Tid']",
+                              "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
+                            },
+                            "path": "/Tables/@{encodeURIComponent('ibsuptable2')}/entities"
+                          },
+                          "runAfter": {}
+                        }
+                      },
+                      "runAfter": {
+                        "Nederbörd": [
+                          "Succeeded"
+                        ]
+                      }
                     }
                   },
                   "runAfter": {
-                    "Decode_": [
+                    "Complete_the_message_in_a_topic_subscription": [
                       "Succeeded"
                     ]
                   }
@@ -429,15 +501,15 @@
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               },
-              "azuretables_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_2_Connection_Name'))]",
-                "connectionName": "[parameters('azuretables_2_Connection_Name')]"
-              },
               "azureeventgrid_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
                 "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
+              },
+              "azuretables": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
+                "connectionName": "[parameters('azuretables_1_Connection_Name')]"
               }
             }
           }
@@ -452,8 +524,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuretables_2_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]"
       ]
     },
     {
@@ -487,17 +559,17 @@
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuretables_2_Connection_Name')]",
+      "name": "[parameters('azuretables_1_Connection_Name')]",
       "location": "[parameters('LogicAppLocation')]",
       "properties": {
         "api": {
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
         },
-        "displayName": "[parameters('azuretables_2_Connection_DisplayName')]",
+        "displayName": "[parameters('azuretables_1_Connection_DisplayName')]",
         "parameterValues": {
-          "storageaccount": "[parameters('azuretables_2_storageaccount')]",
-          "sharedkey": "[parameters('azuretables_2_sharedkey')]",
-          "privacySetting": "[parameters('azuretables_2_privacySetting')]"
+          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
+          "sharedkey": "[parameters('azuretables_1_sharedkey')]",
+          "privacySetting": "[parameters('azuretables_1_privacySetting')]"
         }
       }
     }

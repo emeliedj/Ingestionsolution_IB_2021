@@ -117,70 +117,6 @@
                 ]
               }
             },
-            "nederbörd": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "nederbörd",
-                    "type": "string"
-                  }
-                ]
-              },
-              "runAfter": {
-                "ingestionData": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "tid": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "tid",
-                    "type": "string"
-                  }
-                ]
-              },
-              "runAfter": {
-                "nederbörd": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "grad": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "grad",
-                    "type": "string"
-                  }
-                ]
-              },
-              "runAfter": {
-                "tid": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "vindstyrka": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "vindstyrka",
-                    "type": "string"
-                  }
-                ]
-              },
-              "runAfter": {
-                "grad": [
-                  "Succeeded"
-                ]
-              }
-            },
             "For_each": {
               "type": "Foreach",
               "foreach": "@triggerBody()?['timeSeries']",
@@ -195,18 +131,22 @@
                         "and": [
                           {
                             "equals": [
-                              "@items('For_each_2')?['name']",
+                              "",
                               "t"
                             ]
                           }
                         ]
                       },
                       "actions": {
-                        "Set_grad": {
-                          "type": "SetVariable",
+                        "Lägg_till_gradobjekt_till_ingestionData": {
+                          "type": "AppendToArrayVariable",
                           "inputs": {
-                            "name": "grad",
-                            "value": "@{items('For_each_2')['values'][0]}"
+                            "name": "ingestionData",
+                            "value": {
+                              "Enhet": "@items('For_each_2')['unit']",
+                              "Grad": "@items('For_each_2')['values'][0]",
+                              "Tid": "@items('For_each')['validTime']"
+                            }
                           },
                           "runAfter": {}
                         }
@@ -219,18 +159,21 @@
                         "and": [
                           {
                             "equals": [
-                              "@items('For_each_2')?['name']",
+                              "",
                               "pcat"
                             ]
                           }
                         ]
                       },
                       "actions": {
-                        "Set_nederbörd": {
-                          "type": "SetVariable",
+                        "Lägg_till_nederbördsobjekt_till_ingestionData": {
+                          "type": "AppendToArrayVariable",
                           "inputs": {
-                            "name": "nederbörd",
-                            "value": "@{items('For_each_2')['values'][0]}"
+                            "name": "ingestionData",
+                            "value": {
+                              "Nederbörd": "@items('For_each_2')['values'][0]",
+                              "Tid": "@items('For_each')['validTime']"
+                            }
                           },
                           "runAfter": {}
                         }
@@ -247,18 +190,21 @@
                         "and": [
                           {
                             "equals": [
-                              "@items('For_each_2')?['name']",
+                              "",
                               "ws"
                             ]
                           }
                         ]
                       },
                       "actions": {
-                        "Set_vindstyrka": {
-                          "type": "SetVariable",
+                        "Lägg_till_vindstyrkaobjekt_till_ingestionData": {
+                          "type": "AppendToArrayVariable",
                           "inputs": {
-                            "name": "vindstyrka",
-                            "value": "@{items('For_each_2')['values'][0]}"
+                            "name": "ingestionData",
+                            "value": {
+                              "Tid": "@items('For_each')['validTime']",
+                              "Vindstyrka": "@items('For_each_2')['values'][0]"
+                            }
                           },
                           "runAfter": {}
                         }
@@ -276,48 +222,10 @@
                       "repetitions": 1
                     }
                   }
-                },
-                "Compose_": {
-                  "type": "Compose",
-                  "inputs": {
-                    "Tid": "@variables('tid')",
-                    "Grad": "@variables('grad')",
-                    "Nederbörd": "@variables('nederbörd')",
-                    "Vindstyrka": "@variables('vindstyrka')"
-                  },
-                  "runAfter": {
-                    "Set_variable": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Append_to_ingestionData": {
-                  "type": "AppendToArrayVariable",
-                  "inputs": {
-                    "name": "ingestionData",
-                    "value": "@outputs('Compose_')"
-                  },
-                  "runAfter": {
-                    "Compose_": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Set_variable": {
-                  "type": "SetVariable",
-                  "inputs": {
-                    "name": "tid",
-                    "value": "@{items('For_each')['validTime']}"
-                  },
-                  "runAfter": {
-                    "For_each_2": [
-                      "Succeeded"
-                    ]
-                  }
                 }
               },
               "runAfter": {
-                "vindstyrka": [
+                "ingestionData": [
                   "Succeeded"
                 ]
               },

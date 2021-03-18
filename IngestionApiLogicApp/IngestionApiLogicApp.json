@@ -216,23 +216,13 @@
                       }
                     }
                   },
-                  "runAfter": {},
-                  "runtimeConfiguration": {
-                    "concurrency": {
-                      "repetitions": 1
-                    }
-                  }
+                  "runAfter": {}
                 }
               },
               "runAfter": {
                 "ingestionData": [
                   "Succeeded"
                 ]
-              },
-              "runtimeConfiguration": {
-                "concurrency": {
-                  "repetitions": 1
-                }
               }
             },
             "Compose": {

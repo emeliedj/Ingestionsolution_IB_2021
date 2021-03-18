@@ -131,7 +131,7 @@
                         "and": [
                           {
                             "equals": [
-                              "",
+                              "@items('For_each_2')?['name']",
                               "t"
                             ]
                           }
@@ -159,7 +159,7 @@
                         "and": [
                           {
                             "equals": [
-                              "",
+                              "@items('For_each_2')?['name']",
                               "pcat"
                             ]
                           }
@@ -190,7 +190,7 @@
                         "and": [
                           {
                             "equals": [
-                              "",
+                              "@items('For_each_2')?['name']",
                               "ws"
                             ]
                           }

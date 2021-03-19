@@ -2,13 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "logicAppName": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 80,
-      "metadata": {
-        "description": "Name of the Logic App."
-      }
+    "integrationAccounts_IBIntegrationAccount_t_externalid": {
+      "defaultValue": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-Sup-RG-t/providers/Microsoft.Logic/integrationAccounts/IBIntegrationAccount-t",
+      "type": "string"
     },
     "logicAppLocation": {
       "type": "string",
@@ -55,13 +51,21 @@
         "brazilsoutheast"
       ]
     },
-    "servicebus_1_Connection_Name": {
+    "logicAppName": {
       "type": "string",
-      "defaultValue": "servicebus"
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
     },
     "servicebus_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "BusConnection"
+    },
+    "servicebus_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "servicebus"
     },
     "servicebus_1_connectionString": {
       "type": "securestring",
@@ -81,21 +85,12 @@
       },
       "apiVersion": "2016-06-01",
       "properties": {
+        "integrationAccount": {
+          "id": "[parameters('integrationAccounts_IBIntegrationAccount_t_externalid')]"
+        },
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "ingestionData": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "ingestionData",
-                    "type": "array"
-                  }
-                ]
-              },
-              "runAfter": {}
-            },
             "Send_message": {
               "type": "ApiConnection",
               "inputs": {
@@ -106,133 +101,29 @@
                 },
                 "method": "post",
                 "body": {
-                  "ContentData": "@{base64(outputs('Compose'))}",
+                  "ContentData": "@{base64(body('Transform_JSON_to_JSON'))}",
                   "ContentType": "application/json"
                 },
                 "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/messages"
               },
               "runAfter": {
-                "Compose": [
+                "Transform_JSON_to_JSON": [
                   "Succeeded"
                 ]
               }
             },
-            "For_each": {
-              "type": "Foreach",
-              "foreach": "@triggerBody()?['timeSeries']",
-              "actions": {
-                "For_each_2": {
-                  "type": "Foreach",
-                  "foreach": "@items('For_each')?['parameters']",
-                  "actions": {
-                    "if(name=t)": {
-                      "type": "If",
-                      "expression": {
-                        "and": [
-                          {
-                            "equals": [
-                              "@items('For_each_2')?['name']",
-                              "t"
-                            ]
-                          }
-                        ]
-                      },
-                      "actions": {
-                        "Lägg_till_gradobjekt_till_ingestionData": {
-                          "type": "AppendToArrayVariable",
-                          "inputs": {
-                            "name": "ingestionData",
-                            "value": {
-                              "Enhet": "@items('For_each_2')['unit']",
-                              "Grad": "@items('For_each_2')['values'][0]",
-                              "Tid": "@items('For_each')['validTime']"
-                            }
-                          },
-                          "runAfter": {}
-                        }
-                      },
-                      "runAfter": {}
-                    },
-                    "if(name=pcat)": {
-                      "type": "If",
-                      "expression": {
-                        "and": [
-                          {
-                            "equals": [
-                              "@items('For_each_2')?['name']",
-                              "pcat"
-                            ]
-                          }
-                        ]
-                      },
-                      "actions": {
-                        "Lägg_till_nederbördsobjekt_till_ingestionData": {
-                          "type": "AppendToArrayVariable",
-                          "inputs": {
-                            "name": "ingestionData",
-                            "value": {
-                              "Nederbörd": "@items('For_each_2')['values'][0]",
-                              "Tid": "@items('For_each')['validTime']"
-                            }
-                          },
-                          "runAfter": {}
-                        }
-                      },
-                      "runAfter": {
-                        "if(name=t)": [
-                          "Succeeded"
-                        ]
-                      }
-                    },
-                    "if(name=ws)": {
-                      "type": "If",
-                      "expression": {
-                        "and": [
-                          {
-                            "equals": [
-                              "@items('For_each_2')?['name']",
-                              "ws"
-                            ]
-                          }
-                        ]
-                      },
-                      "actions": {
-                        "Lägg_till_vindstyrkaobjekt_till_ingestionData": {
-                          "type": "AppendToArrayVariable",
-                          "inputs": {
-                            "name": "ingestionData",
-                            "value": {
-                              "Tid": "@items('For_each')['validTime']",
-                              "Vindstyrka": "@items('For_each_2')['values'][0]"
-                            }
-                          },
-                          "runAfter": {}
-                        }
-                      },
-                      "runAfter": {
-                        "if(name=pcat)": [
-                          "Succeeded"
-                        ]
-                      }
-                    }
-                  },
-                  "runAfter": {}
+            "Transform_JSON_to_JSON": {
+              "inputs": {
+                "content": "@triggerBody()",
+                "integrationAccount": {
+                  "map": {
+                    "name": "IngestionMap"
+                  }
                 }
               },
-              "runAfter": {
-                "ingestionData": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "Compose": {
-              "type": "Compose",
-              "inputs": "@variables('ingestionData')",
-              "runAfter": {
-                "For_each": [
-                  "Succeeded"
-                ]
-              }
+              "type": "Liquid",
+              "kind": "JsonToJson",
+              "runAfter": {}
             }
           },
           "parameters": {

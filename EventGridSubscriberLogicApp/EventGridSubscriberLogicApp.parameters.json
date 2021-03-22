@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
-      "value": "IBEventGridSubscriberLogicApp-t"
+      "value": "IB-EventGridSubscriberLogicApp-t"
     },
 
     "azureeventgrid_1_Connection_Name": {
@@ -19,7 +19,7 @@
       "value": "BusConnection"
     },
     "servicebus_1_connectionString": {
-      "value": "Endpoint=sb://ibservicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Uq4FS7EgH3vKwk/95xbSOgdz2eoRCpzuvhKiy2UG5E0="
+      "value": "Endpoint=sb://ib-servicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vQVEGwfkJ7yWmdX4n8mX+uV9TbVv9ZZ7hRQzDiu9f2I="
 
     }, "azuretables_1_Connection_Name": {
       "value": "azuretables"
@@ -28,10 +28,10 @@
       "value": "StorageConnection"
     },
     "azuretables_1_storageaccount": {
-      "value": "ibsupstorage"
+      "value": "ibsupstorageacc"
     },
     "azuretables_1_sharedkey": {
-      "value": "vBVpC4S0aA0VP6QDMsK+qlZIrNBXaKgMjYVahd1ETA8WzUAaNff+PNXsoBJ3DF/HPpXCd9zQs+K1ZN7fWNdz9w=="
+      "value": "mwl/oO8WmubC4jI+PzmyZZOtkUXTcK770cA+MB+FCmJd8F3JJJaaoHeCczkN4kf0NpIte0e+YTCVyGLtNscuvA=="
     },
     "azuretables_1_privacySetting": {
       "value": "None"

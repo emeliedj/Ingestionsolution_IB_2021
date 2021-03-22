@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "integrationAccounts_IBIntegrationAccount_t_externalid": {
-      "defaultValue": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-Sup-RG-t/providers/Microsoft.Logic/integrationAccounts/IBIntegrationAccount-t",
+      "defaultValue": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-rg-t/providers/Microsoft.Logic/integrationAccounts/IB-IntegrationAccount-t",
       "type": "string"
     },
     "logicAppLocation": {
@@ -104,7 +104,7 @@
                   "ContentData": "@{base64(body('Transform_JSON_to_JSON'))}",
                   "ContentType": "application/json"
                 },
-                "path": "/@{encodeURIComponent(encodeURIComponent('ibservicebustopic-t'))}/messages"
+                "path": "/@{encodeURIComponent(encodeURIComponent('ib-servicebustopic-t'))}/messages"
               },
               "runAfter": {
                 "Transform_JSON_to_JSON": [

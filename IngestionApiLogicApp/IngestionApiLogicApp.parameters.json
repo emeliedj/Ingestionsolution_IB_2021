@@ -3,16 +3,16 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "integrationAccounts_IBIntegrationAccount_t_externalid": {
-      "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-Sup-RG-t/providers/Microsoft.Logic/integrationAccounts/IBIntegrationAccount-t"
+      "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-rg-t/providers/Microsoft.Logic/integrationAccounts/IB-IntegrationAccount-t"
     },
     "logicAppName": {
-      "value": "IBIngestionApiLogicApp-t"
+      "value": "IB-IngestionApiLogicApp-t"
     },
     "servicebus_1_Connection_Name": {
       "value": "servicebus"
     },
     "servicebus_1_connectionString": {
-      "value": "Endpoint=sb://ibservicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Uq4FS7EgH3vKwk/95xbSOgdz2eoRCpzuvhKiy2UG5E0="
+      "value": "Endpoint=sb://ib-servicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vQVEGwfkJ7yWmdX4n8mX+uV9TbVv9ZZ7hRQzDiu9f2I="
     }
   }
 }

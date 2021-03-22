@@ -59,13 +59,13 @@
         "description": "Name of the Logic App."
       }
     },
-    "servicebus_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "BusConnection"
-    },
     "servicebus_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "servicebus"
+      "defaultValue": "servicebus-1"
+    },
+    "servicebus_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "busCon"
     },
     "servicebus_1_connectionString": {
       "type": "securestring",
@@ -96,7 +96,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                    "name": "@parameters('$connections')['servicebus_1']['connectionId']"
                   }
                 },
                 "method": "post",
@@ -223,7 +223,7 @@
         "parameters": {
           "$connections": {
             "value": {
-              "servicebus": {
+              "servicebus_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
@@ -236,6 +236,7 @@
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]"
       ]
     },
+   
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",

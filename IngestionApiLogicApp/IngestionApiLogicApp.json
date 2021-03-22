@@ -61,7 +61,7 @@
     },
     "servicebus_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "servicebus-1"
+      "defaultValue": "servicebus"
     },
     "servicebus_1_Connection_DisplayName": {
       "type": "string",
@@ -91,12 +91,25 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
+            "Transform_JSON_to_JSON": {
+              "inputs": {
+                "content": "@triggerBody()",
+                "integrationAccount": {
+                  "map": {
+                    "name": "IngestionMap"
+                  }
+                }
+              },
+              "type": "Liquid",
+              "kind": "JsonToJson",
+              "runAfter": {}
+            },
             "Send_message": {
               "type": "ApiConnection",
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['servicebus_1']['connectionId']"
+                    "name": "@parameters('$connections')['servicebus']['connectionId']"
                   }
                 },
                 "method": "post",
@@ -111,19 +124,6 @@
                   "Succeeded"
                 ]
               }
-            },
-            "Transform_JSON_to_JSON": {
-              "inputs": {
-                "content": "@triggerBody()",
-                "integrationAccount": {
-                  "map": {
-                    "name": "IngestionMap"
-                  }
-                }
-              },
-              "type": "Liquid",
-              "kind": "JsonToJson",
-              "runAfter": {}
             }
           },
           "parameters": {
@@ -223,7 +223,7 @@
         "parameters": {
           "$connections": {
             "value": {
-              "servicebus_1": {
+              "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
@@ -236,7 +236,6 @@
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]"
       ]
     },
-   
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",

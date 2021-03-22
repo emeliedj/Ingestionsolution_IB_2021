@@ -9,7 +9,7 @@
       "value": "IB-IngestionApiLogicApp-t"
     },
     "servicebus_1_Connection_Name": {
-      "value": "servicebus-1"
+      "value": "servicebus"
     },
     "servicebus_1_Connection_DisplayName": {
       "value": "BusCon"

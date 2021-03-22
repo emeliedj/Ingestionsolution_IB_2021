@@ -52,14 +52,7 @@
       "type": "string",
       "minLength": 1,
       "defaultValue": "IB-EventGridSubscriberLogicApp-t"
-    },
-    "azureeventgrid_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azureeventgrid"
-    },
-    "azureeventgrid_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
+    
     },
     "servicebus_1_Connection_Name": {
       "type": "string",
@@ -107,6 +100,14 @@
         "Organizational",
         "Public"
       ]
+    },
+    "azureeventgrid_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureeventgrid-3"
+    },
+    "azureeventgrid_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
     }
   },
   "variables": {},
@@ -209,7 +210,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azureeventgrid']['connectionId']"
+                    "name": "@parameters('$connections')['azureeventgrid_1']['connectionId']"
                   }
                 },
                 "body": {
@@ -242,11 +243,6 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azureeventgrid": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
-              },
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
@@ -256,6 +252,11 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
                 "connectionName": "[parameters('azuretables_1_Connection_Name')]"
+              },
+              "azureeventgrid_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
               }
             }
           }
@@ -269,22 +270,11 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
       ]
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azureeventgrid_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
-        },
-        "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
-      }
+       
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
@@ -316,6 +306,18 @@
           "sharedkey": "[parameters('azuretables_1_sharedkey')]",
           "privacySetting": "[parameters('azuretables_1_privacySetting')]"
         }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azureeventgrid_1_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
+        },
+        "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
       }
     }
   ],

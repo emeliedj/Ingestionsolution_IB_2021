@@ -52,29 +52,14 @@
       "type": "string",
       "minLength": 1,
       "defaultValue": "IB-EventGridSubscriberLogicApp-t"
-    
-    },
-    "servicebus_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus"
-    },
-    "servicebus_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "busCon"
-    },
-    "servicebus_1_connectionString": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure Service Bus Connection String"
-      }
     },
     "azuretables_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "azuretables"
+      "defaultValue": "azuretables-1"
     },
     "azuretables_1_Connection_DisplayName": {
       "type": "string",
-      "defaultValue": "storageCon"
+      "defaultValue": "storageCon1"
     },
     "azuretables_1_storageaccount": {
       "type": "string",
@@ -101,9 +86,23 @@
         "Public"
       ]
     },
+    "servicebus_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "servicebus-1"
+    },
+    "servicebus_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "busCon1"
+    },
+    "servicebus_1_connectionString": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure Service Bus Connection String"
+      }
+    },
     "azureeventgrid_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "azureeventgrid-3"
+      "defaultValue": "azureeventgrid-1"
     },
     "azureeventgrid_1_Connection_DisplayName": {
       "type": "string",
@@ -167,18 +166,10 @@
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                            "name": "@parameters('$connections')['azuretables_2']['connectionId']"
                           }
                         },
                         "method": "post",
-                        "body": {
-                          "Grad": "@items('For_each_2')['Grad']",
-                          "Nederbörd": "@items('For_each_2')['Nederbörd']",
-                          "PartitionKey": "Weather",
-                          "RowKey": "@guid()",
-                          "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'W. Europe Standard Time', 's')",
-                          "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
-                        },
                         "path": "/Tables/@{encodeURIComponent('weatherdata')}/entities"
                       },
                       "runAfter": {}
@@ -243,20 +234,20 @@
         "parameters": {
           "$connections": {
             "value": {
+              "azureeventgrid_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
+              },
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               },
-              "azuretables": {
+              "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
                 "connectionName": "[parameters('azuretables_1_Connection_Name')]"
-              },
-              "azureeventgrid_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
               }
             }
           }
@@ -270,26 +261,10 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]"
       ]
-       
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('servicebus_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
-        },
-        "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
-        "parameterValues": {
-          "connectionString": "[parameters('servicebus_1_connectionString')]"
-        }
-      }
     },
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
@@ -305,6 +280,21 @@
           "storageaccount": "[parameters('azuretables_1_storageaccount')]",
           "sharedkey": "[parameters('azuretables_1_sharedkey')]",
           "privacySetting": "[parameters('azuretables_1_privacySetting')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('servicebus_1_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
+        },
+        "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "connectionString": "[parameters('servicebus_1_connectionString')]"
         }
       }
     },

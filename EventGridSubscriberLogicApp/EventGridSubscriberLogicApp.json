@@ -131,7 +131,7 @@
                   }
                 },
                 "method": "get",
-                "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopicSubscriber'])}/messages/batch/peek",
+                "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopicSubscriber'])}/messages/batch/peek",
                 "queries": {
                   "maxMessageCount": 20,
                   "subscriptionType": "Main",

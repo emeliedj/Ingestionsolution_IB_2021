@@ -67,6 +67,9 @@
       "type": "string",
       "defaultValue": "busCon1"
     },
+    "serviceBusTopic": {
+      "type": "string"   
+    },
     "servicebus_1_connectionString": {
       "type": "securestring",
       "metadata": {
@@ -117,7 +120,7 @@
                   "ContentData": "@{base64(body('Transform_JSON_to_JSON'))}",
                   "ContentType": "application/json"
                 },
-                "path": "/@{encodeURIComponent(encodeURIComponent('ib-servicebustopic-t'))}/messages"
+                "path": "/@{encodeURIComponent(encodeURIComponent('@{parameters('serviceBusTopic')}'))}/messages"
               },
               "runAfter": {
                 "Transform_JSON_to_JSON": [

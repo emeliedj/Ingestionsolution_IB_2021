@@ -112,6 +112,12 @@
     },
     "serviceBusTopicSubscriber": {
       "type": "string"
+    },
+    "storageTable": {
+      "type": "string"
+    },
+    "serviceBusEventGridSystemTopicPath": {
+      "type": "string"
     }
   },
   "variables": {},
@@ -153,7 +159,7 @@
                       }
                     },
                     "method": "delete",
-                    "path": "/@{encodeURIComponent(encodeURIComponent('ib-servicebustopic-t'))}/subscriptions/@{encodeURIComponent('IB-EventGridSubscriber-t')}/messages/complete",
+                    "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopicSubscriber'])}/messages/complete",
                     "queries": {
                       "lockToken": "@items('For_each')?['LockToken']",
                       "subscriptionType": "Main",
@@ -183,7 +189,7 @@
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'W. Europe Standard Time', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                         },
-                        "path": "/Tables/@{encodeURIComponent('weatherdata')}/entities"
+                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables_2']['storageTable'])}/entities"
                       },
                       "runAfter": {}
                     }
@@ -219,7 +225,7 @@
                 },
                 "body": {
                   "properties": {
-                    "topic": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-rg-t/providers/Microsoft.ServiceBus/namespaces/IB-ServiceBus-t",
+                    "topic": "@parameters('$connections')['servicebus']['serviceBusEventGridSystemTopicPath']",
                     "destination": {
                       "endpointType": "webhook",
                       "properties": {
@@ -252,13 +258,15 @@
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]",
                 "serviceBusTopic": "[parameters('serviceBusTopic')]",
-                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]"
+                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]",
+                "serviceBusEventGridSystemTopicPath": "[parameters('serviceBusEventGridSystemTopicPath')]"
 
               },
               "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-                "connectionName": "[parameters('azuretables_1_Connection_Name')]"
+                "connectionName": "[parameters('azuretables_1_Connection_Name')]",
+                "storageTable": "[parameters('storageTable')]"
               },
               "azureeventgrid_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",

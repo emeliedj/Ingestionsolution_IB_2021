@@ -120,7 +120,7 @@
                   "ContentData": "@{base64(body('Transform_JSON_to_JSON'))}",
                   "ContentType": "application/json"
                 },
-                "path": "/@{encodeURIComponent(encodeURIComponent('[parameters('serviceBusTopic')]'))}/messages"
+                "path": "/@{encodeURIComponent(encodeURIComponent(parameters('serviceBusTopic')))}/messages"
               },
               "runAfter": {
                 "Transform_JSON_to_JSON": [

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "integrationAccounts_IBIntegrationAccount_t_externalid": {
+      "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/ib-prod-int-weatherdata/providers/Microsoft.Logic/integrationAccounts/ib-shared-iacc-maps-p"
+    },
+    "logicAppName": {
+      "value": "weatherdata-lapp-ingestion-p"
+    },
+    "servicebus_1_Connection_Name": {
+      "value": "servicebus-2"
+    },
+    "servicebus_1_Connection_DisplayName": {
+      "value": "BusCon2"
+    },
+    "servicebus_1_connectionString": {
+      "value": "Endpoint=sb://ib-shared-sbus-supbus01-p.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=l1yNKqxGr79GNP/KQ5oaI2upRRHXxAFNgNN/d+Q8GqE="
+    },
+    "serviceBusTopic": {
+      "value": "supbus01-sbt-topic01-p"
+    }
+  }
+}

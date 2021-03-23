@@ -21,7 +21,8 @@
     "servicebus_1_connectionString": {
       "value": "Endpoint=sb://ib-servicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vQVEGwfkJ7yWmdX4n8mX+uV9TbVv9ZZ7hRQzDiu9f2I="
 
-    }, "azuretables_1_Connection_Name": {
+    },
+    "azuretables_1_Connection_Name": {
       "value": "azuretables-1"
     },
     "azuretables_1_Connection_DisplayName": {
@@ -35,6 +36,12 @@
     },
     "azuretables_1_privacySetting": {
       "value": "None"
+    },
+    "serviceBusTopic": {
+      "value": "ib-servicebustopic-t"
+    },
+    "serviceBusTopicSubscriber": {
+      "value": "IB-EventGridSubscriber-t"
     }
   }
 }

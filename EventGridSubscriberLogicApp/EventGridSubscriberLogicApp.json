@@ -106,6 +106,12 @@
     "azureeventgrid_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "christian.rudolphi@integrationsbolaget.se"
+    },
+    "serviceBusTopic": {
+      "type": "string"
+    },
+    "serviceBusTopicSubscriber": {
+      "type": "string"
     }
   },
   "variables": {},
@@ -125,7 +131,7 @@
                   }
                 },
                 "method": "get",
-                "path": "/@{encodeURIComponent(encodeURIComponent('ib-servicebustopic-t'))}/subscriptions/@{encodeURIComponent('IB-EventGridSubscriber-t')}/messages/batch/peek",
+                "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopicSubscriber'])}/messages/batch/peek",
                 "queries": {
                   "maxMessageCount": 20,
                   "subscriptionType": "Main",
@@ -244,7 +250,10 @@
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]",
+                "serviceBusTopic": "[parameters('serviceBusTopic')]",
+                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]"
+
               },
               "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",

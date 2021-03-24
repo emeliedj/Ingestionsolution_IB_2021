@@ -171,7 +171,7 @@
                 },
                 "For_each_2": {
                   "type": "Foreach",
-                  "foreach": "@json(decodeBase64(items('For_each')['ContentData']))",
+                  "foreach": "@json(decodeBase64(items('For_each')['ContentData']['data']))",
                   "actions": {
                     "Insert_Entity": {
                       "type": "ApiConnection",

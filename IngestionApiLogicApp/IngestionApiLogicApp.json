@@ -124,18 +124,29 @@
               "kind": "Http",
               "inputs": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "client": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {}
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Tid": {
+                        "type": "string"
+                      },
+                      "Grad": {
+                        "type": "string"
+                      },
+                      "Nederbörd": {
+                        "type": "string"
+                      },
+                      "Vindstyrka": {
+                        "type": "string"
                       }
-                    }
+                    },
+                    "required": [
+                      "Tid",
+                      "Grad",
+                      "Nederbörd",
+                      "Vindstyrka"
+                    ]
                   }
                 }
               },
@@ -151,8 +162,7 @@
               "servicebus_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]",
-                "serviceBusTopic": "[parameters('serviceBusTopic')]"
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               }
             }
           }

@@ -257,7 +257,10 @@
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]",
+                "serviceBusTopic": "[parameters('serviceBusTopic')]",
+                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]",
+                "serviceBusEventGridSystemTopicPath": "[parameters('serviceBusEventGridSystemTopicPath')]"
               },
               "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",

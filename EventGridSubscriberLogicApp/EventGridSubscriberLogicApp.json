@@ -185,7 +185,7 @@
                         "body": {
                           "Grad": "@items('For_each_2')['Grad']",
                           "Nederbörd": "@items('For_each_2')['Nederbörd']",
-                          "PartitionKey": "Weather",
+                          "PartitionKey": "@items('For_each_2')['Källa']",
                           "RowKey": "@guid()",
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'W. Europe Standard Time', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"

@@ -17,6 +17,7 @@
         "southcentralus",
         "northeurope",
         "westeurope",
+        "japanwest",
         "japaneast",
         "brazilsouth",
         "australiaeast",
@@ -170,7 +171,7 @@
                 },
                 "For_each_2": {
                   "type": "Foreach",
-                  "foreach": "@json(decodeBase64(items('For_each')['ContentData']['data']))",
+                  "foreach": "@json(decodeBase64(items('For_each')['ContentData']['body']['data']))",
                   "actions": {
                     "Insert_Entity": {
                       "type": "ApiConnection",
@@ -256,11 +257,7 @@
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]",
-                "serviceBusTopic": "[parameters('serviceBusTopic')]",
-                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]",
-                "serviceBusEventGridSystemTopicPath": "[parameters('serviceBusEventGridSystemTopicPath')]"
-
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               },
               "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",

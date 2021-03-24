@@ -121,7 +121,7 @@
                 }
               },
               "recurrence": {
-                "frequency": "Second",
+                "frequency": "Minute",
                 "interval": 1
               }
             }

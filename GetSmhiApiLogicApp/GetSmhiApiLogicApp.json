@@ -98,8 +98,7 @@
                 "headers": {
                   "Ocp-Apim-Subscription-Key": "613e054040b94ad6afa90e11f5f34fcc",
                   "Ocp-Apim-Trace": "true",
-                  "Content-Type": "application/json",
-                  "Källa": "smhi"
+                  "Content-Type": "application/json"
                 },
                 "body": "@body('Transform_JSON_to_JSON')"
               },

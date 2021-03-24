@@ -104,7 +104,7 @@
                 },
                 "method": "post",
                 "body": {
-                  "ContentData": "@{base64(body('When_a_HTTP_request_is_received'))}",
+                  "ContentData": "@{base64(triggerBody())}",
                   "ContentType": "application/json"
                 },
                 "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopic']))}/messages"

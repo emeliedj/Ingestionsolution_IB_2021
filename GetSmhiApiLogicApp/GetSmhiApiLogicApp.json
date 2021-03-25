@@ -98,9 +98,9 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "@parameters('$connections')['logicAppPost']['logicAppUri']",
+                "uri": "@parameters('logicAppCon')['logicAppPost']['logicAppUri']",
                 "headers": {
-                  "Ocp-Apim-Subscription-Key": "@parameters('$connections')['logicAppPost']['logicAppKey']",
+                  "Ocp-Apim-Subscription-Key": "@parameters('logicAppCon')['logicAppPost']['logicAppKey']",
                   "Ocp-Apim-Trace": "true",
                   "Content-Type": "application/json"
                 },
@@ -139,7 +139,7 @@
           "outputs": {}
         },
         "parameters": {
-          "$connections": {
+          "logicAppCon": {
             "value": {
               "logicAppPost": {
                 "logicAppUri": "[parameters('logicAppUri')]",

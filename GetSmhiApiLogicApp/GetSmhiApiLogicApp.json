@@ -114,7 +114,10 @@
             }
           },
           "parameters": {
-
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
           },
           "triggers": {
             "HTTP_-_GET-SMHI": {

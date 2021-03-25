@@ -98,9 +98,9 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "@parameters('logicAppUri')",
+                "uri": "@parameters('$connections')['logicAppPost']['logicAppUri'])",
                 "headers": {
-                  "Ocp-Apim-Subscription-Key": "@parameters('logicAppKey')",
+                  "Ocp-Apim-Subscription-Key": "@parameters('$connections')['logicAppPost']['logicAppKey'])",
                   "Ocp-Apim-Trace": "true",
                   "Content-Type": "application/json"
                 },
@@ -114,7 +114,7 @@
             }
           },
           "parameters": {
-           
+
           },
           "triggers": {
             "HTTP_-_GET-SMHI": {
@@ -136,11 +136,17 @@
           "outputs": {}
         },
         "parameters": {
-          "logicAppUri": "[parameters('logicAppUri')]",
-          "logicAppKey": "[parameters('logicAppKey')]"
-        }
-      },
-      "dependsOn": []
+          "$connections": {
+            "value": {
+              "logicAppPost": {
+                "logicAppUri": "[parameters('logicAppUri')]",
+                "logicAppKey": "[parameters('logicAppKey')]"
+              }
+            }
+          }
+        },
+        "dependsOn": []
+      }
     }
   ],
   "outputs": {}

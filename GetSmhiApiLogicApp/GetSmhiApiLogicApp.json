@@ -23,7 +23,7 @@
         "japanwest",
         "japaneast",
         "brazilsouth",
-        "australiaeast",        
+        "australiaeast",
         "southindia",
         "centralindia",
         "westindia",
@@ -56,6 +56,12 @@
       "metadata": {
         "description": "Name of the Logic App."
       }
+    },
+    "logicAppUri": {
+      "type": "string"
+    },
+    "logicAppKey": {
+      "type": "string"
     }
   },
   "variables": {},
@@ -92,9 +98,9 @@
               "type": "Http",
               "inputs": {
                 "method": "POST",
-                "uri": "https://ib-sup-apim-t.azure-api.net/manual/paths/invoke",
+                "uri": "@parameters('logicAppUri')",
                 "headers": {
-                  "Ocp-Apim-Subscription-Key": "613e054040b94ad6afa90e11f5f34fcc",
+                  "Ocp-Apim-Subscription-Key": "@parameters('logicAppKey')",
                   "Ocp-Apim-Trace": "true",
                   "Content-Type": "application/json"
                 },
@@ -107,7 +113,10 @@
               }
             }
           },
-          "parameters": {},
+          "parameters": {
+            "logicAppUri": "[parameters('logicAppUri')]",
+            "logicAppKey": "[parameters('logicAppKey')]"
+          },
           "triggers": {
             "HTTP_-_GET-SMHI": {
               "type": "Http",
@@ -127,7 +136,10 @@
           "contentVersion": "1.0.0.0",
           "outputs": {}
         },
-        "parameters": {}
+        "parameters": {
+          "logicAppUri": "[parameters('logicAppUri')]",
+          "logicAppKey": "[parameters('logicAppKey')]"
+        }
       },
       "dependsOn": []
     }

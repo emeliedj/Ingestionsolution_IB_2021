@@ -7,6 +7,12 @@
     },
     "logicAppName": {
       "value": "IB-GetSMHIApiLogicApp-t"
+    },
+    "logicAppUri": {
+      "value": "https://ib-sup-apim-t.azure-api.net/manual/paths/invoke"
+    },
+    "logicAppKey": {
+      "value": "613e054040b94ad6afa90e11f5f34fcc"
     }
   }
 }

@@ -7,6 +7,12 @@
     },
     "logicAppName": {
       "value": "weatherdata-lapp-getsmhi-p"
+    },
+    "logicAppUri": {
+      "value": "https://ib-shared-apim-supapim-p.azure-api.net/weatherdata/manual/paths/invoke"
+    },
+    "logicAppKey": {
+      "value": "b6e8b40cfb0f42599c6d594e60cf4685"
     }
   }
 }

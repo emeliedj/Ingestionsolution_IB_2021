@@ -114,7 +114,7 @@
             }
           },
           "parameters": {
-            "$connections": {
+            "logicAppCon": {
               "defaultValue": {},
               "type": "Object"
             }

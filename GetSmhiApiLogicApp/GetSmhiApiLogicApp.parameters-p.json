@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "integrationAccounts_IBIntegrationAccount_t_externalid": {
+      "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/ib-prod-int-weatherdata/providers/Microsoft.Logic/integrationAccounts/ib-shared-iacc-maps-p"
+    },
+    "logicAppName": {
+      "value": "weatherdata-lapp-getsmhi-p"
+    }
+  }
+}

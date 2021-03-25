@@ -6,7 +6,8 @@
       "type": "string",
       "minLength": 1,
       "allowedValues": [
-        "[resourceGroup().location]",      
+        "[resourceGroup().location]",
+        "eastasia",
         "southeastasia",
         "centralus",
         "eastus",
@@ -18,6 +19,7 @@
         "westeurope",
         "japanwest",
         "japaneast",
+        "brazilsouth",
         "australiaeast",
         "australiasoutheast",
         "southindia",
@@ -35,8 +37,11 @@
         "francesouth",
         "uaecentral",
         "uaenorth",
+        "southafricanorth",
+        "southafricawest",
         "switzerlandnorth",
         "switzerlandwest",
+        "germanynorth",
         "germanywestcentral",
         "norwayeast",
         "brazilsoutheast"
@@ -180,7 +185,7 @@
                         "body": {
                           "Grad": "@items('For_each_2')['Grad']",
                           "Nederbörd": "@items('For_each_2')['Nederbörd']",
-                          "PartitionKey": "Weather",
+                          "PartitionKey": "@items('For_each_2')['Källa']",
                           "RowKey": "@guid()",
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'W. Europe Standard Time', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
@@ -256,7 +261,6 @@
                 "serviceBusTopic": "[parameters('serviceBusTopic')]",
                 "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]",
                 "serviceBusEventGridSystemTopicPath": "[parameters('serviceBusEventGridSystemTopicPath')]"
-
               },
               "azuretables_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",

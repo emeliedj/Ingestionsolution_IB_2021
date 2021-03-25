@@ -10,7 +10,9 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
       "allowedValues": [
-        "[resourceGroup().location]",      
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
         "centralus",
         "eastus",
         "eastus2",
@@ -19,6 +21,8 @@
         "southcentralus",
         "northeurope",
         "westeurope",
+        "japanwest",
+        "japaneast",
         "brazilsouth",
         "australiaeast",
         "australiasoutheast",
@@ -26,6 +30,7 @@
         "centralindia",
         "westindia",
         "canadacentral",
+        "canadaeast",
         "uksouth",
         "ukwest",
         "westcentralus",
@@ -63,7 +68,7 @@
       "defaultValue": "busCon1"
     },
     "serviceBusTopic": {
-      "type": "string"   
+      "type": "string"
     },
     "servicebus_1_connectionString": {
       "type": "securestring",
@@ -89,19 +94,6 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "Transform_JSON_to_JSON": {
-              "inputs": {
-                "content": "@triggerBody()",
-                "integrationAccount": {
-                  "map": {
-                    "name": "IngestionMap"
-                  }
-                }
-              },
-              "type": "Liquid",
-              "kind": "JsonToJson",
-              "runAfter": {}
-            },
             "Send_message": {
               "type": "ApiConnection",
               "inputs": {
@@ -112,16 +104,12 @@
                 },
                 "method": "post",
                 "body": {
-                  "ContentData": "@{base64(body('Transform_JSON_to_JSON'))}",
+                  "ContentData": "@{base64(triggerBody())}",
                   "ContentType": "application/json"
                 },
                 "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus_2']['serviceBusTopic']))}/messages"
               },
-              "runAfter": {
-                "Transform_JSON_to_JSON": [
-                  "Succeeded"
-                ]
-              }
+              "runAfter": {}
             }
           },
           "parameters": {
@@ -136,80 +124,30 @@
               "kind": "Http",
               "inputs": {
                 "schema": {
-                  "properties": {
-                    "approvedTime": {
-                      "type": "string"
-                    },
-                    "geometry": {
-                      "properties": {
-                        "coordinates": {
-                          "items": {
-                            "items": {
-                              "type": "number"
-                            },
-                            "type": "array"
-                          },
-                          "type": "array"
-                        },
-                        "type": {
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Tid": {
+                        "type": "string"
                       },
-                      "type": "object"
-                    },
-                    "referenceTime": {
-                      "type": "string"
-                    },
-                    "timeSeries": {
-                      "items": {
-                        "properties": {
-                          "parameters": {
-                            "items": {
-                              "properties": {
-                                "level": {
-                                  "type": "number"
-                                },
-                                "levelType": {
-                                  "type": "string"
-                                },
-                                "name": {
-                                  "type": "string"
-                                },
-                                "unit": {
-                                  "type": "string"
-                                },
-                                "values": {
-                                  "items": {
-                                    "type": "number"
-                                  },
-                                  "type": "array"
-                                }
-                              },
-                              "required": [
-                                "name",
-                                "levelType",
-                                "level",
-                                "unit",
-                                "values"
-                              ],
-                              "type": "object"
-                            },
-                            "type": "array"
-                          },
-                          "validTime": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "validTime",
-                          "parameters"
-                        ],
-                        "type": "object"
+                      "Grad": {
+                        "type": "string"
                       },
-                      "type": "array"
-                    }
-                  },
-                  "type": "object"
+                      "Nederbörd": {
+                        "type": "string"
+                      },
+                      "Vindstyrka": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "Tid",
+                      "Grad",
+                      "Nederbörd",
+                      "Vindstyrka"
+                    ]
+                  }
                 }
               },
               "operationOptions": "EnableSchemaValidation"
@@ -226,7 +164,6 @@
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]",
                 "serviceBusTopic": "[parameters('serviceBusTopic')]"
-                
               }
             }
           }

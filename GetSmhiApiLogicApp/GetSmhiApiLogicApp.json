@@ -114,7 +114,7 @@
             }
           },
           "parameters": {
-            "logicAppKey": "[parameters('logicAppKey')]"
+           
           },
           "triggers": {
             "HTTP_-_GET-SMHI": {

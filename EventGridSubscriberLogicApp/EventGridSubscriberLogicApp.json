@@ -186,7 +186,7 @@
                           "Nederbörd": "@items('For_each_2')['Nederbörd']",
                           "PartitionKey": "@items('For_each_2')['Källa']",
                           "RowKey": "@guid()",
-                          "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'Central European Standard Time', 's')",
+                          "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'GMT Standard Time', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                         },
                         "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables_2']['storageTable'])}/entities"

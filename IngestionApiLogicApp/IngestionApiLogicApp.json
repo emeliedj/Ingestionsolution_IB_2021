@@ -85,9 +85,7 @@
       },
       "apiVersion": "2016-06-01",
       "properties": {
-        "integrationAccount": {
-          "id": "[parameters('integrationAccounts_IBIntegrationAccount_t_externalid')]"
-        },
+        
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {

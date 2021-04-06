@@ -135,7 +135,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['servicebus_1']['connectionId']"
+                    "name": "@parameters('$connections')['servicebus']['connectionId']"
                   }
                 },
                 "method": "get",

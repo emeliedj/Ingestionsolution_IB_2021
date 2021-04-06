@@ -118,41 +118,8 @@
       "metadata": {
         "description": "Azure Service Bus Connection String"
       }
-    },
-    "azuretables_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azuretables-2"
-    },
-    "azuretables_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "storageCon2"
-    },
-    "azuretables_2_storageaccount": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of your storage account"
-      },
-      "defaultValue": "ibprodsupsacc"
-    },
-    "azuretables_2_sharedkey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The shared storage key of your storage account"
-      }
-    },
-    "azuretables_2_privacySetting": {
-      "type": "string",
-      "metadata": {
-        "description": "Privacy Setting"
-      },
-      "defaultValue": "None",
-      "allowedValues": [
-        "None",
-        "Private",
-        "Organizational",
-        "Public"
-      ]
     }
+    
   },
   "variables": {},
   "resources": [
@@ -223,7 +190,7 @@
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'UTC', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                         },
-                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables_2']['storageTable'])}/entities"
+                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables_1']['storageTable'])}/entities"
                       },
                       "runAfter": {}
                     }
@@ -361,23 +328,6 @@
         "displayName": "[parameters('servicebus_Connection_DisplayName')]",
         "parameterValues": {
           "connectionString": "[parameters('servicebus_connectionString')]"
-        }
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuretables_2_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
-        },
-        "displayName": "[parameters('azuretables_2_Connection_DisplayName')]",
-        "parameterValues": {
-          "storageaccount": "[parameters('azuretables_2_storageaccount')]",
-          "sharedkey": "[parameters('azuretables_2_sharedkey')]",
-          "privacySetting": "[parameters('azuretables_2_privacySetting')]"
         }
       }
     }

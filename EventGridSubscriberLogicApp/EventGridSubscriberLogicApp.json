@@ -100,14 +100,7 @@
         "description": "Azure Service Bus Connection String"
       }
     },
-    "azureeventgrid_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azureeventgrid-1"
-    },
-    "azureeventgrid_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
-    },
+   
     "serviceBusTopic": {
       "type": "string"
     },
@@ -328,18 +321,7 @@
         }
       }
     },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azureeventgrid_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
-        },
-        "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
-      }
-    },
+  
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",

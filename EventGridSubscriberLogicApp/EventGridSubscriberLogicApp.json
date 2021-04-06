@@ -86,20 +86,6 @@
         "Public"
       ]
     },
-    "servicebus_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus-1"
-    },
-    "servicebus_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "busCon1"
-    },
-    "servicebus_1_connectionString": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure Service Bus Connection String"
-      }
-    },
     "serviceBusTopic": {
       "type": "string"
     },
@@ -120,15 +106,15 @@
       "type": "string",
       "defaultValue": "christian.rudolphi@integrationsbolaget.se"
     },
-    "servicebus_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus-2"
+    "servicebus_Connection_Name": {
+      "type": "string"
+      
     },
-    "servicebus_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "BusCon2"
+    "servicebus_Connection_DisplayName": {
+      "type": "string"
+     
     },
-    "servicebus_2_connectionString": {
+    "servicebus_connectionString": {
       "type": "securestring",
       "metadata": {
         "description": "Azure Service Bus Connection String"
@@ -305,8 +291,8 @@
             "value": {
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_Connection_Name'))]",
+                "connectionName": "[parameters('servicebus_Connection_Name')]"
               },
               "azuretables_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
@@ -330,7 +316,7 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
       ]
@@ -355,21 +341,6 @@
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('servicebus_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
-        },
-        "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
-        "parameterValues": {
-          "connectionString": "[parameters('servicebus_1_connectionString')]"
-        }
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
       "name": "[parameters('azureeventgrid_1_Connection_Name')]",
       "location": "[parameters('LogicAppLocation')]",
       "properties": {
@@ -382,15 +353,15 @@
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('servicebus_2_Connection_Name')]",
+      "name": "[parameters('servicebus_Connection_Name')]",
       "location": "[parameters('LogicAppLocation')]",
       "properties": {
         "api": {
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
         },
-        "displayName": "[parameters('servicebus_2_Connection_DisplayName')]",
+        "displayName": "[parameters('servicebus_Connection_DisplayName')]",
         "parameterValues": {
-          "connectionString": "[parameters('servicebus_2_connectionString')]"
+          "connectionString": "[parameters('servicebus_connectionString')]"
         }
       }
     },

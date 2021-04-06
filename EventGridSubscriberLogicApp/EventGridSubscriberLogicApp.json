@@ -120,20 +120,6 @@
     "serviceBusEventGridSystemTopicPath": {
       "type": "string"
     },
-    "servicebus_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus-2"
-    },
-    "servicebus_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "BusCon2"
-    },
-    "servicebus_2_connectionString": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure Service Bus Connection String"
-      }
-    },
     "azureeventgrid_2_Connection_Name": {
       "type": "string",
       "defaultValue": "azureeventgrid-2"
@@ -277,11 +263,7 @@
         "parameters": {
           "$connections": {
             "value": {
-              "servicebus_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_2_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_2_Connection_Name')]"
-              },
+              
               "servicebus": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
@@ -309,7 +291,6 @@
         "displayName": "LogicApp"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('servicebus_2_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_2_Connection_Name'))]"
@@ -357,21 +338,6 @@
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
         },
         "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('servicebus_2_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
-        },
-        "displayName": "[parameters('servicebus_2_Connection_DisplayName')]",
-        "parameterValues": {
-          "connectionString": "[parameters('servicebus_2_connectionString')]"
-        }
       }
     },
     {

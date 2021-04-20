@@ -189,7 +189,7 @@
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'UTC', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                         },
-                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables_1']['storageTable'])}/entities"
+                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables']['storageTable'])}/entities"
                       },
                       "runAfter": {}
                     }

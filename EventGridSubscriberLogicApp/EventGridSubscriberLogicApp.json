@@ -159,7 +159,7 @@
                       }
                     },
                     "method": "delete",
-                    "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus']['serviceBusTopicSubscriber'])}/messages/complete",
+                    "path": "/@{encodeURIComponent(encodeURIComponent(parameters('$connections')['servicebus_1']['serviceBusTopic']))}/subscriptions/@{encodeURIComponent(parameters('$connections')['servicebus_1']['serviceBusTopicSubscriber'])}/messages/complete",
                     "queries": {
                       "lockToken": "@items('For_each')?['LockToken']",
                       "subscriptionType": "Main",
@@ -225,7 +225,7 @@
                 },
                 "body": {
                   "properties": {
-                    "topic": "@parameters('$connections')['servicebus']['serviceBusEventGridSystemTopicPath']",
+                    "topic": "@parameters('$connections')['servicebus_1']['serviceBusEventGridSystemTopicPath']",
                     "destination": {
                       "endpointType": "webhook",
                       "properties": {

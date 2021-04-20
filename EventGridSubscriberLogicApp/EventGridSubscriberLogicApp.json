@@ -234,8 +234,8 @@
                     },
                     "filter": {
                       "includedEventTypes": [
-                        "Microsoft.ServiceBus.ActiveMessagesAvailablePeriodicNotifications",
-                        "Microsoft.ServiceBus.DeadletterMessagesAvailablePeriodicNotifications"
+                        "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners",
+                        "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners"
                       ]
                     }
                   }

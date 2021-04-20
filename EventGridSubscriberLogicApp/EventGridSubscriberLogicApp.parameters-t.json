@@ -12,13 +12,13 @@
     "azureeventgrid_1_Connection_DisplayName": {
       "value": "christian.rudolphi@integrationsbolaget.se"
     },
-    "servicebus_Connection_Name": {
+    "servicebus_1_Connection_Name": {
       "value": "servicebus-1"
     },
-    "servicebus_Connection_DisplayName": {
+    "servicebus_1_Connection_DisplayName": {
       "value": "BusCon"
     },
-    "servicebus_connectionString": {
+    "servicebus_1_connectionString": {
       "value": "Endpoint=sb://ib-servicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vQVEGwfkJ7yWmdX4n8mX+uV9TbVv9ZZ7hRQzDiu9f2I="
 
     },

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    "logicAppName": {
+      "value": "weatherdata-lapp-sendtodocker-p"
+    },
+    "azureeventgrid_1_Connection_Name": {
+      "value": "azureeventgrid-1"
+    },
+    "azureeventgrid_1_Connection_DisplayName": {
+      "value": "christian.rudolphi@integrationsbolaget.se"
+    },
+    "serviceBusEventGridSystemTopicPath": {
+      "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/IB-rg-t/providers/Microsoft.ServiceBus/namespaces/IB-ServiceBus-t"
+    },
+    "httpUri": {
+      "value": "http://12cf63a92efe.ngrok.io/api/Stateful1/triggers/manual/invoke?api-version=2020-05-01-preview&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lUa_GKSYzz8yOQ9_EEY7YJQaLZ4Ti-SR0KwHMuwajoo"
+    }
+  }
+}

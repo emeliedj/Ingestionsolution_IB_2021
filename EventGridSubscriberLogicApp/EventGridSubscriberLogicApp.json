@@ -179,7 +179,7 @@
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                            "name": "@parameters('$connections')['azuretables_3']['connectionId']"
                           }
                         },
                         "method": "post",

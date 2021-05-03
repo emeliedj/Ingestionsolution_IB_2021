@@ -119,6 +119,14 @@
         "Organizational",
         "Public"
       ]
+    },
+    "azureeventgrid_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureeventgrid-1"
+    },
+    "azureeventgrid_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
     }
   },
   "variables": {},
@@ -221,7 +229,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azureeventgrid']['connectionId']"
+                    "name": "@parameters('$connections')['azureeventgrid_1']['connectionId']"
                   }
                 },
                 "body": {
@@ -289,7 +297,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_2_Connection_Name'))]"
       ]
     },
     {
@@ -334,6 +342,18 @@
           "sharedkey": "[parameters('azuretables_1_sharedkey')]",
           "privacySetting": "[parameters('azuretables_1_privacySetting')]"
         }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azureeventgrid_2_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
+        },
+        "displayName": "[parameters('azureeventgrid_2_Connection_DisplayName')]"
       }
     }
   ],

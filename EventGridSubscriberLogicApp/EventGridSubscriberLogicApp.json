@@ -178,7 +178,7 @@
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                            "name": "@parameters('$connections')['azuretables_1']['connectionId']"
                           }
                         },
                         "method": "post",
@@ -259,10 +259,11 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
                 "connectionName": "[parameters('servicebus_1_Connection_Name')]",
-                "serviceBusTopic": "[parameters('serviceBusTopic')]",
-                "serviceBusTopicSubscriber":  "[parameters('serviceBusTopicSubscriber')]"
+                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]",
+                "serviceBusTopic": "[parameters('serviceBusTopic')]"
+
               },
-              "azuretables": {
+              "azuretables_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
                 "connectionName": "[parameters('azuretables_1_Connection_Name')]",
@@ -315,6 +316,23 @@
         "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
         "parameterValues": {
           "connectionString": "[parameters('servicebus_1_connectionString')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuretables_1_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
+        },
+        "displayName": "[parameters('azuretables_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
+          "sharedkey": "[parameters('azuretables_1_sharedkey')]",
+          "privacySetting": "[parameters('azuretables_1_privacySetting')]"
         }
       }
     }

@@ -79,28 +79,37 @@
         "description": "Azure Service Bus Connection String"
       }
     },
-    "azuretables_1_Connection_Name": {
+    "azureeventgrid_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureeventgrid-1"
+    },
+    "azureeventgrid_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
+    },
+  
+    "azuretables_3_Connection_Name": {
       "type": "string",
       "defaultValue": "azuretables"
     },
-    "azuretables_1_Connection_DisplayName": {
+    "azuretables_3_Connection_DisplayName": {
       "type": "string",
-      "defaultValue": "StorageCon"
+      "defaultValue": "storCon"
     },
-    "azuretables_1_storageaccount": {
+    "azuretables_3_storageaccount": {
       "type": "string",
       "metadata": {
         "description": "The name of your storage account"
       },
-      "defaultValue": "ibsupstorageacc"
+      "defaultValue": "ibprodsupsacc"
     },
-    "azuretables_1_sharedkey": {
+    "azuretables_3_sharedkey": {
       "type": "securestring",
       "metadata": {
         "description": "The shared storage key of your storage account"
       }
     },
-    "azuretables_1_privacySetting": {
+    "azuretables_3_privacySetting": {
       "type": "string",
       "metadata": {
         "description": "Privacy Setting"
@@ -111,14 +120,6 @@
         "Organizational",
         "Public"
       ]
-    },
-    "azureeventgrid_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azureeventgrid-1"
-    },
-    "azureeventgrid_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
     }
   },
   "variables": {},
@@ -178,7 +179,7 @@
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuretables_1']['connectionId']"
+                            "name": "@parameters('$connections')['azuretables']['connectionId']"
                           }
                         },
                         "method": "post",
@@ -190,7 +191,7 @@
                           "Tid": "@convertToUtc(items('For_each_2')['Tid'], 'UTC', 's')",
                           "Vindstyrka": "@items('For_each_2')['Vindstyrka']"
                         },
-                        "path": "/Tables/@{encodeURIComponent(parameters('$connections')['azuretables']['storageTable'])}/entities"
+                        "path": "/Tables/@{encodeURIComponent('weatherdatastab')}/entities"
                       },
                       "runAfter": {}
                     }
@@ -263,10 +264,10 @@
                 "serviceBusTopic": "[parameters('serviceBusTopic')]"
 
               },
-              "azuretables_1": {
+              "azuretables_3": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-                "connectionName": "[parameters('azuretables_1_Connection_Name')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_3_Connection_Name'))]",
+                "connectionName": "[parameters('azuretables_3_Connection_Name')]",
                 "storageTable": "[parameters('storageTable')]"
               },
               "azureeventgrid": {
@@ -288,7 +289,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_3_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
       ]
     },
@@ -310,23 +311,6 @@
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuretables_1_Connection_Name')]",
-      "location": "[parameters('LogicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
-        },
-        "displayName": "[parameters('azuretables_1_Connection_DisplayName')]",
-        "parameterValues": {
-          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
-          "sharedkey": "[parameters('azuretables_1_sharedkey')]",
-          "privacySetting": "[parameters('azuretables_1_privacySetting')]"
-        }
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
       "name": "[parameters('azureeventgrid_1_Connection_Name')]",
       "location": "[parameters('LogicAppLocation')]",
       "properties": {
@@ -334,6 +318,24 @@
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
         },
         "displayName": "[parameters('azureeventgrid_1_Connection_DisplayName')]"
+      }
+    },
+    
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuretables_3_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]"
+        },
+        "displayName": "[parameters('azuretables_3_Connection_DisplayName')]",
+        "parameterValues": {
+          "storageaccount": "[parameters('azuretables_3_storageaccount')]",
+          "sharedkey": "[parameters('azuretables_3_sharedkey')]",
+          "privacySetting": "[parameters('azuretables_3_privacySetting')]"
+        }
       }
     }
   ],

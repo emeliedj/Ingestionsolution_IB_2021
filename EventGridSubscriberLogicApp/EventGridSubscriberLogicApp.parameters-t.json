@@ -22,19 +22,19 @@
       "value": "Endpoint=sb://ib-servicebus-t.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vQVEGwfkJ7yWmdX4n8mX+uV9TbVv9ZZ7hRQzDiu9f2I="
 
     },
-    "azuretables_1_Connection_Name": {
+    "azuretables_3_Connection_Name": {
       "value": "azuretables-1"
     },
-    "azuretables_1_Connection_DisplayName": {
+    "azuretables_3_Connection_DisplayName": {
       "value": "storageCon1"
     },
-    "azuretables_1_storageaccount": {
+    "azuretables_3_storageaccount": {
       "value": "ibsupstorageacc"
     },
-    "azuretables_1_sharedkey": {
+    "azuretables_3_sharedkey": {
       "value": "mwl/oO8WmubC4jI+PzmyZZOtkUXTcK770cA+MB+FCmJd8F3JJJaaoHeCczkN4kf0NpIte0e+YTCVyGLtNscuvA=="
     },
-    "azuretables_1_privacySetting": {
+    "azuretables_3_privacySetting": {
       "value": "None"
     },
     "serviceBusTopic": {

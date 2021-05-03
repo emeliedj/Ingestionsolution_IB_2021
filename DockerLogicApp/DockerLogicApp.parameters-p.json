@@ -16,7 +16,7 @@
       "value": "/subscriptions/c4022058-9e70-4f84-ad5b-1d689dd885ab/resourceGroups/ib-prod-int-weatherdata/providers/Microsoft.ServiceBus/namespaces/ib-shared-sbus-supBus01-p"
     },
     "httpUri": {
-      "value": "http://12cf63a92efe.ngrok.io/api/Stateful1/triggers/manual/invoke?api-version=2020-05-01-preview&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lUa_GKSYzz8yOQ9_EEY7YJQaLZ4Ti-SR0KwHMuwajoo"
+      "value": "http://c393838f0e69.ngrok.io/api/Stateful2/triggers/manual/invoke?api-version=2020-05-01-preview&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0h7hPkwihMUgeygtl9zUvrzJVZ2Le67xJK2wB8eACmU"
     }
   }
 }

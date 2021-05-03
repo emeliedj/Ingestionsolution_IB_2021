@@ -16,7 +16,8 @@
         "northcentralus",
         "southcentralus",
         "northeurope",
-        "westeurope",       
+        "westeurope",
+        "japanwest",
         "japaneast",
         "brazilsouth",
         "australiaeast",
@@ -118,6 +119,14 @@
         "Organizational",
         "Public"
       ]
+    },
+    "azureeventgrid_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureeventgrid-1"
+    },
+    "azureeventgrid_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "christian.rudolphi@integrationsbolaget.se"
     }
   },
   "variables": {},
@@ -220,7 +229,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azureeventgrid_1']['connectionId']"
+                    "name": "@parameters('$connections')['azureeventgrid']['connectionId']"
                   }
                 },
                 "body": {
@@ -257,21 +266,17 @@
               "servicebus_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
-                "connectionName": "[parameters('servicebus_1_Connection_Name')]",
-                "serviceBusTopic": "[parameters('serviceBusTopic')]",
-                "serviceBusEventGridSystemTopicPath": "[parameters('serviceBusEventGridSystemTopicPath')]",
-                "serviceBusTopicSubscriber": "[parameters('serviceBusTopicSubscriber')]"
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
               },
               "azuretables": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-                "connectionName": "[parameters('azuretables_1_Connection_Name')]",
-                "storageTable": "[parameters('storageTable')]"
+                "connectionName": "[parameters('azuretables_1_Connection_Name')]"
               },
-              "azureeventgrid_1": {
+              "azureeventgrid": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureeventgrid_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_2_Connection_Name'))]",
+                "connectionName": "[parameters('azureeventgrid_2_Connection_Name')]"
               }
             }
           }
@@ -287,7 +292,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azureeventgrid_2_Connection_Name'))]"
       ]
     },
     {
@@ -332,6 +337,18 @@
           "sharedkey": "[parameters('azuretables_1_sharedkey')]",
           "privacySetting": "[parameters('azuretables_1_privacySetting')]"
         }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azureeventgrid_2_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureeventgrid')]"
+        },
+        "displayName": "[parameters('azureeventgrid_2_Connection_DisplayName')]"
       }
     }
   ],
